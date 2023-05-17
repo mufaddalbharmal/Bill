@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockItem Edit</title>
+</head>
+<body>
+    
+        <label for="name">Name => </label>
+        <input id="name" name="name" class="name" type="text">
+        <br>
+        <br>
+        <label for="value">Value => </label>        
+        <input disabled="" id="value" name="value" class="value" type="text">
+        <br>
+        <br>
+        <label for="rate">Rate => </label>
+        <input id="rate" name="rate" class="rate">
+        <br>
+        <br>
+        <input name="submit" class="submit" id="submit" type="button" value="Add Item">
+
+    
+</body>
+</html>
+<script src="scripts/add.js">
+</script>
+    
+
+<style>
+    .itemslist{
+        display: flex;
+        flex-direction: column;
+        z-index: 100;
+        height: 100px;
+        overflow: auto;
+    }
+</style>

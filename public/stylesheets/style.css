@@ -1,0 +1,38 @@
+#items{
+    width: 200px;
+    font-size: large;
+    font-family: 'Times New Roman', Times, serif;
+}
+.itemsbox{
+    display: flex;
+    width: max-content;
+    flex-direction: column;
+    direction: left;
+    align-items: flex-start;
+    
+}
+.itemslist{
+    width: 100%;
+    background-color: aqua;    
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+}
+a:link{
+    text-decoration:none 
+}
+button{
+    width: 100%;
+    background-color: none;
+}
+button:focus{
+    background-color: gray;
+}
+table{
+    align-items: flex-end; 
+    align-content: flex-end;
+}
+#trname{
+    align-items: flex-start
+}

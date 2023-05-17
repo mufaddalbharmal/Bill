@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockItem Edit</title>
+</head>
+<body>
+    
+        <div name="itemsbox" id="itemsbox" class="itemsbox">
+            Selected Name =>    <input name="itemsboxinput" class="itemsboxinput" id="itemsboxinput" type="text">                            
+            <div class="itemslist" id="itemslist" name="itemslist">
+            </div>
+        </div>
+        <br>
+        <br>
+        Name => <input id="itemsboxinputChange" name="itemsboxinputChange" class="itemsboxinputChange" type="text">
+        <br>
+        <br>
+        Rate => <input name="Rate" class="Rate" id="Rate">
+        <br>
+        <br>
+        <input name="submit" class="submit" id="submit" type="button" value="Edit Item">
+
+    
+</body>
+</html>
+<script>
+    var Data=""
+    var itemsboxinput=document.getElementById('itemsboxinput')
+    var itemslist=document.getElementById('itemslist')
+    var itemsbox=document.getElementById('itemsbox')
+    var itemsboxinputChange=document.getElementById('itemsboxinputChange')
+    var Rate=document.getElementById('Rate')
+    var submit=document.getElementById('submit')
+
+    
+    
+
+    function appendNameAndRate(InputValue){
+        Data.forEach(ele => {
+            if(ele["value"]==InputValue){
+                itemsboxinputChange.value=ele["value"]
+                Rate.value=ele["rate"]
+                itemsboxinput.value=InputValue
+            }
+        });
+    }
+    function Funsort(data){
+        data.sort(function(stra,strb){
+        var namea=stra.name.toLowerCase();
+        var nameb=strb.name.toLowerCase();
+
+        if(namea<nameb)
+        return -1;
+        if(namea>nameb)
+        return 1;
+        return 0;
+        })
+    }
+    function Remove(divName){
+        if(divName){
+            while (divName.firstChild) {
+                divName.firstChild.remove()
+            }
+        }
+    }
+    function FunSearch(itemsboxtemp,data){
+        var newData=[]    
+        InputValue=itemsboxtemp.children[0].value
+        data.forEach(ele => {
+            if(ele["value"].toLowerCase().match(InputValue)){
+                newData.push(ele)
+            }
+        });
+        Remove(itemslist)
+        appendItems(itemslist,newData)
+    }
+    function appendItems(itemslist,data){
+        data.forEach(ele => {        
+        var button=document.createElement('button')
+        button.innerHTML=ele["name"]
+        button.setAttribute('value',ele["value"])
+        button.setAttribute('name','itemsbutton')
+        button.setAttribute('id','itemsbutton')
+        button.setAttribute('class','itemsbutton')            
+        itemslist.append(button) 
+            // if(InputValue==ele["value"])
+            // button.focus()
+               
+    });
+    }
+    function Funitemsboxinput(){
+        itemsboxinput.addEventListener('focusin',(event)=>{
+        appendItems(itemslist,Data)  
+        })
+    }
+    function Funitemsbox(){
+        itemsbox.addEventListener('keyup',(event)=>{           
+        // event.preventDefault();
+        // console.log(event)
+        elementFocused=document.activeElement                
+        itemsboxinputId=elementFocused.id            
+        if(elementFocused==itemsboxinput)
+        FunSearch(itemsbox,Data)
+        buttonchildrens=elementFocused.parentElement.children                                     
+        if(event.key=='ArrowDown'){
+            elementToBeFocused=elementFocused.parentElement.children[1].children[0]                              
+            if(elementFocused==itemsboxinput)                            
+                elementToBeFocused.focus()        
+            for(var i=0;i<buttonchildrens.length;i++){
+                if(buttonchildrens[i]==elementFocused){                
+                    buttonchildrens[(i+1)%buttonchildrens.length].focus()                        
+                    break;
+                    return
+                }                
+            }
+        }
+        else if(event.key=='ArrowUp'){
+            for(var i=0;i<buttonchildrens.length;i++){
+                if(buttonchildrens[i]==elementFocused){                
+                    if(i==0)
+                    buttonchildrens[buttonchildrens.length-1].focus()
+                    else
+                    buttonchildrens[i-1].focus()
+                    return
+                }                
+            }
+        }      
+        else if(event.key=='Enter' && event.target.value!=''){
+            itemsboxinputParentElement=elementFocused.parentElement.parentElement
+            itemslist.style.display='none'
+            itemsboxinputChange.focus()
+            console.log(event.target.value)
+            appendNameAndRate(event.target.value)
+        }
+        else if(event.key==' ' && event.code=='Space'){
+            var tempid=event.target.id
+            if(itemsboxinput[tempid].value==' '){
+                itemslist[tempid].style.display='flex'
+            }
+        }
+        else{                            
+            itemsboxinput.focus()
+        }
+    })
+    }
+    function FunitemsboxinputChange(){
+        itemsboxinputChange.addEventListener('keyup',(event)=>{
+            if(event.key=="Enter"){                
+                Rate.focus()
+            }
+        })
+    }
+    function FunRate(){
+        Rate.addEventListener('keyup',(event)=>{
+            if(event.key=='Enter')
+            submit.focus()
+        })
+    }
+    function Funsubmit(){
+        submit.addEventListener('keyup',(event)=>{
+            onsubmitButton(event)
+        })
+        submit.addEventListener('click',(event)=>{
+            onsubmitButton(event)
+        })
+    }
+    function ParamsInput(){
+        var queryString=window.location.search
+        var urlParams = new URLSearchParams(queryString);
+        InputValue=urlParams.get('value')
+        if(InputValue){
+            appendNameAndRate(InputValue)
+            if(itemsboxinput.value && itemsboxinputChange.value && Rate.value){
+                itemsboxinput.setAttribute('disabled','disabled')
+                itemslist.style.display='none'
+                itemsboxinputChange.focus()
+            }
+            itemsboxinput.focus()
+        }
+        itemsboxinput.focus()
+        
+    }   
+    function fetchItems(){
+        fetch('items.json')
+        .then((response)=>{
+            return response.json()
+        })
+        .then((data)=>{
+            Data=data
+            Funsort(data)                                  
+            ParamsInput()
+        })   
+        .catch((err)=>{
+            console.log('error: '+err)
+        })
+    }
+    function onsubmitButton(event){
+        event.preventDefault(event);
+            if(event.key=='Enter' || event.type=='click'){
+                itemsboxinput.setAttribute('disabled','disabled')
+                var v=1,update=0;
+                Data.forEach(ele => {
+                    if(ele["value"]==itemsboxinput.value){
+                        if(ele["value"]==itemsboxinputChange.value && ele["rate"]==Rate.value){
+                            v=0;
+                            // break;
+                            alert("No Change")
+                            window.close()
+                        }
+                        else{
+                            FunDataChange(ele["name"],ele["value"],ele["rate"],itemsboxinputChange.value,Rate.value)
+                        }
+                    }                                        
+                });                
+            }
+    }
+    fetchItems()
+    Funitemsboxinput()
+    Funitemsbox()
+    FunitemsboxinputChange()
+    FunRate()
+    Funsubmit()
+    
+    function FunDataChange(name,value,rate,valueChanged,RateChanged){
+        
+        fetch("/itemsModification", {
+            method: "POST",
+            body: JSON.stringify({
+              name,value,rate,valueChanged,RateChanged
+            }),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+        .then((response) => {
+            return response.json()
+        })
+        .then((message)=>{
+            if(message["status"]=='ok' && message["modified"]==1){
+                console.log(name)
+                console.log(valueChanged)
+                alert(`Item name '${name}' Edited to '${valueChanged}' Successfully`)
+                window.close()
+            }
+        })
+    }
+</script>
+
+<style>
+    .itemslist{
+        display: flex;
+        flex-direction: column;
+        z-index: 100;
+        height: 100px;
+        overflow: auto;
+    }
+</style>

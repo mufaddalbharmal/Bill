@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Bill</title>
+    <link rel="stylesheet" href="./stylesheets/styleindex.css"/>
+</head>
+
+<body>    
+    <div class="grid-container">
+        <div class="Name" id="Name">Name</div>
+        <div class="Quantity" id="Quantity">Quantity</div>
+        <div class="Rate" id="Rate">Rate</div>
+        <div class="Amount" id="Amount">Amount</div> 
+        <div name="itemsbox" id=0 class="itemsbox">
+            <input name="itemsboxinput" class="itemsboxinput" id=0 type="text">                            
+            <div class="itemslist" id=0 name="itemslist">
+            </div>
+        </div>        
+        <div><input class="qty" name="qty" type="number" id=0></div>
+        <div><input class="rate" name="rate" type="number" id=0></div>
+        <div><input class="amt" disabled="disabled" name="amt" type="number" id=0></div>
+    </div>
+   
+    <br>
+    <br>
+    <div class="TotalAmountDiv">
+        Total Amount => <input name="totamt" id="totamt" class="totamt">
+    </div>
+    <br>
+    <br>
+    <button onclick="openTab('add')" >Add Item</button>
+    <button onclick="openTab('edit')" >Edit Item</button>
+
+
+</body>
+
+</html>
+<style>
+    
+</style>
+<script src="./scripts/script.js"></script>
+<!-- <script src="/node_modules/focus-visible/dist/focus-visible.min.js"></script> -->
+<script>
+    function openTab(tab){
+        window.open(`/${tab}.html`,'_blank')
+    }
+</script>

@@ -1,0 +1,36 @@
+.grid-container {
+    flex:80%;
+    display: grid;
+    grid: auto auto auto auto /auto auto auto auto;
+    grid-template-rows: ;
+    grid-gap: 2px;
+    background-color: #2196F3;
+    padding: 0px;
+}
+.grid-container>div {
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 2px 0;
+    font-size: 20px;
+}
+.itemsbox{
+    height: 100%;
+}
+.itemslist{
+    display: none;
+    flex-direction: column;
+    z-index: 100;
+    height: 100px;
+    overflow: auto;
+}
+
+.TotalAmountDiv{
+    float: right;
+}
+.itemsboxinput{
+    z-index: 0;
+}
+button:focus{
+    border: 2px solid darkgoldenrod;
+    /* outline:red 2px solid; */
+}
