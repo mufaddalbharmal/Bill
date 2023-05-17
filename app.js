@@ -1,3 +1,4 @@
+require('dotenv').config()
 var express=require('express')
 var fs=require('fs')
 var file=require('./public/items.json')
@@ -59,8 +60,8 @@ app.post('/itemsModification',(req,res)=>{
         }
     });    
 })
-
-port=200
+console.log(process.env.PORT)
+port=process.env.PORT
 app.listen(port,()=>{
     console.log(currentDate, time)
     console.log("App is listening on",port)
